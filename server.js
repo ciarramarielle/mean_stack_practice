@@ -74,8 +74,18 @@ Message.findOne().exec(function(err, mDoc) {
 
 
 // Partials...
-app.get("/partials/:partialPath", function(req, res) {
-    res.render("partials/" + req.params.partialPath);
+// app.get("/partials/:partialPath", function(req, res) {
+//     res.render("partials/" + req.params.partialPath);
+// });
+
+// app.get("/partials/*", function(req, res) {
+//     res.render("partials/" + req.params[0]);
+// })
+
+// ON VIEW, IF LINKED TO ../partials/...  we render public/app/* ...
+// Relative to VIEWS directory
+app.get("/partials/*", function(req, res) {
+    res.render("../../public/app/" + req.params[0]);
 })
 
 
