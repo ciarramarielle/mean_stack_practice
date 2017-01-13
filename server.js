@@ -46,6 +46,7 @@ app.use(stylus.middleware(
 app.use(express.static(__dirname + "/public"));
 
 
+/* DATABASE SETTINGS */
 // Connect to my mongoose database by using mongoose.connect
 var c9host = "0.0.0.0";
 mongoose.connect("mongodb://"+ c9host + "/mean-stack");
@@ -55,6 +56,12 @@ db.once("open", function cb() {
     console.log("mean-stack db opened");
 });
 
+var mSchema = mongoose.Schema({message: String});
+var Message = mongoose.model("Message", mSchema);
+var mMessage;
+Message.findOne().exec(function(err, mDoc) {
+    mMessage = mDoc.message;
+}); // PASS THIS OBJECT TO A VIEW, i.e. INDEX VIEW app.get("*")
 
 
 
@@ -67,7 +74,10 @@ app.get("/partials/:partialPath", function(req, res) {
 // route that delivers my index page
 // app.get("/"); //at route of website
 app.get("*", function(req, res) {
-    res.render("index"); // index within /server/views/
+    res.render("index", {
+        // MONGO MESSAGE OBJECT PASSED INTO THIS VIEW.
+        mongoMessage: mMessage 
+    }); // index within /server/views/
 }); // deliver index page at any request... for now
 
 // start listening to requests
