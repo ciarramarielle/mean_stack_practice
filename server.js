@@ -53,7 +53,7 @@ mongoose.connect("mongodb://"+ c9host + "/multivision");
 
 
 // using jeames existing db
-// mongoose.connect("mongodb://user:password@ds163698.mlab.com:63698/multivision");
+// mongoose.connect("mongodb://user:password@ds123456.mlab.com:23456/db_name");
 
 // RUNNING MONGO: mongod --bind_ip=$IP --nojournal
 
@@ -63,13 +63,14 @@ db.once("open", function cb() {
     console.log("multivision db opened");
 });
 
+/* @VIEW: USED mongoMessage
 var mSchema = mongoose.Schema({message: String});
 var Message = mongoose.model("Message", mSchema);
 var mMessage;
 Message.findOne().exec(function(err, mDoc) {
     mMessage = mDoc.message;
 }); // PASS THIS OBJECT TO A VIEW, i.e. INDEX VIEW app.get("*")
-
+*/
 
 
 // Partials...
@@ -83,7 +84,8 @@ app.get("/partials/:partialPath", function(req, res) {
 app.get("*", function(req, res) {
     res.render("index", {
         // MONGO MESSAGE OBJECT PASSED INTO THIS VIEW.
-        mongoMessage: mMessage 
+        /* @VIEW: USED mongoMessage
+        mongoMessage: mMessage  */
     }); // index within /server/views/
 }); // deliver index page at any request... for now
 
