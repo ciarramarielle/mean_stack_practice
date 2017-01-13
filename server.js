@@ -49,11 +49,18 @@ app.use(express.static(__dirname + "/public"));
 /* DATABASE SETTINGS */
 // Connect to my mongoose database by using mongoose.connect
 var c9host = "0.0.0.0";
-mongoose.connect("mongodb://"+ c9host + "/mean-stack");
+mongoose.connect("mongodb://"+ c9host + "/multivision");
+
+
+// using jeames existing db
+// mongoose.connect("mongodb://user:password@ds163698.mlab.com:63698/multivision");
+
+// RUNNING MONGO: mongod --bind_ip=$IP --nojournal
+
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "cnxn error"));
 db.once("open", function cb() {
-    console.log("mean-stack db opened");
+    console.log("multivision db opened");
 });
 
 var mSchema = mongoose.Schema({message: String});
@@ -81,7 +88,7 @@ app.get("*", function(req, res) {
 }); // deliver index page at any request... for now
 
 // start listening to requests
-var port = 8080;
+var port = process.env.PORT || 8080;
 app.listen(port);
 
 // check that server is running
